@@ -1420,6 +1420,43 @@ select sum(salary) over (order by employee_id) as cum_sal_dept, a.*
 from employees a
 order by employee_id, department_id;
 
+
+NTH_VALUE:
+----------
+find the second highest salary.
+
+SELECT
+    employee_id,
+    first_name,
+    salary,
+    NTH_VALUE(first_name,2) OVER (
+        ORDER BY salary DESC
+        RANGE BETWEEN 
+            UNBOUNDED PRECEDING AND 
+            UNBOUNDED FOLLOWING
+    ) AS second_highest_salary
+FROM
+    employees;
+    
+    
+find the second highest salary in each department.
+
+SELECT
+    employee_id,
+    first_name,
+    salary,
+    department_id,
+    NTH_VALUE(first_name,2) OVER (
+        PARTITION BY department_id
+        ORDER BY salary DESC
+        RANGE BETWEEN 
+            UNBOUNDED PRECEDING AND 
+            UNBOUNDED FOLLOWING
+    ) AS second_highest_salary_of_dept
+FROM
+    employees;
+    
+
 VIEWS:
 	* It is a database object.
 	* It is like a window, through which we can retrieve data from an underlying table, 
