@@ -1,0 +1,143 @@
+What is Java?
+    It is a High level,  strictly but partially object oriented and general purpose language.
+
+History & Evolution
+    James Gosling from Sun micro systems.
+    it is monitored by Oracle Corp.
+
+versions:
+    java 1.1, 1.2, 1.3, 1.4, 1.5
+
+    (J2SE) Java SE - Java Standard Edition     - console / stand-alone / desktop application
+    (J2EE) Java EE - Java Enterprise Edition   - distributed - Web applications
+
+    1.8 (Java 8)
+
+    JDK (Java Development Kit)          -   collection of tools to write java program
+    JRE (Java Runtime Environment)      -   to execute java program
+
+Java Features:
+--------------
+1) simple  
+2) platform independent  
+
+    source code     .java
+    compile it      .class  (byte code)
+    
+    byte code -> JVM -> convert the bytecode into machine code.
+    machine code is executed on the O/S.
+
+    is JDK platform independent?                            -No-
+    is JRE platform independent?                            -No-
+    is JVM (Java Virtual Machine)  platform independent?    -No     
+
+    Only the ByteCode is platform independent.
+    (WORA - Write Once Run Anywhere)
+
+3) secured
+        no pointers in java
+        java programs run inside JVM only.
+
+4) robust  (strong)
+        strong type checking mechanism
+        automatic garbage collection
+        exception handling
+
+5) object oriented
+
+characteristics:
+-------------------
+1) highly case sensitive
+
+
+Java Tokens
+-----------
+It is smallest indivisible part of a program.
+
+1) Identifiers : It is a name given for class, variable, method, interface etc.
+2) Keywords : if, switch, int, float etc.,
+3) Operators
+
+    unary   :   ++, --, !, unary +, unary -
+    binary  :   arithmetic , relational, logical, assignment
+    terinary:   conditional operator ( ? : )
+
+    a) arithmetic operators
+        +   -   *   /   %
+    b) relational operators
+        >   <   ==  >=  <=  !=
+    c) logical operators
+        &&  ||  !
+    d) conditional operator
+        ? :
+    e) increment/decrement operators
+        ++, --
+    f) assignment operators
+        =   +=  -=  *=  /=  %=
+    g) bitwise operators
+        &   |   ~
+    h) miscellaneous (special)
+        []  () instanceof
+
+4) Literals
+    It is a hard coded value.
+
+    a) integer literals
+        int a = 10;
+
+        i) decimal literal  (0-9)
+            10, -5, 0
+        ii) octal literal   (0-7)
+            06, 07, 021
+        iii) hexa decimal literal   (0-9, A-F)
+            0x9734
+        iv) binary literal  (0,1)
+            0b10101
+
+    b) floating-point literals
+        double b = 2.5;
+    c) character literals
+        'A', '7', '?'
+        char ch = 'A';
+    d) string literals
+        "srinivas", "49-53-20/25", "9247175823"
+        String userName = "srinivas";
+    e) boolean literals
+        true, false
+        boolean isValid = true;
+
+    f) void literal
+         null : indicates that a specific reference not refer to anything.
+        
+5) Comments
+    a) //           inline comment
+    b) /* .. */     block comment
+    c) /** .. */    documentation comment
+
+    
+
+
+
+
+   
+
+
+
+
+
+
+
+
+object-oriented
+secured
+robust
+multi threading
+portable
+
+
+
+
+
+
+
+
