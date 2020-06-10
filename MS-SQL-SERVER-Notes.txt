@@ -1,0 +1,1458 @@
+MS SQL Server
+================
+SQL Server is a relational database management system, or RDBMS, developed and marketed by Microsoft.
+SQL server is tied to Transact-SQL, or T-SQL, the Microsoft�s implementation of SQL
+
+editions:
+---------
+1) SQL Server Developer edition - for use in database development and testing.
+
+2) SQL Server Express Edition - for small databases with the size up to 10 GB
+
+3) SQL Server Enterprise edition - For larger and more critical applications
+
+4) SQL Server Standard Edition - partial feature sets of the Enterprise Edition and 
+				limits on the Server regarding the numbers of processor core 
+				and memory that can be configured.
+
+SQL Server Management Studio : 
+	IT is a GUI tool to work with MS SQL Server.
+
+
+Sample Database Creation:
+--------------------------
+CREATE DATABASE  DXCDB;
+
+USE  DXCDB;
+
+
+T-SQL Server Datatypes:
+------------------------
+datatype					range
+-------------------------------------------------------------------------------------
+bigint		-9,223,372,036,854,775,808  	to   	-9,223,372,036,854,775,807
+int		-2,147,483,648			to	-2,147,483,647
+smallint	-32768				to	32,767
+tinyint		0				to	255
+decimal(s,d)	-10^38+1			to	10^38-1
+
+char(w)		255 characters	(fixed length - space padded)
+varchar(w)	255 characters	(varying length)
+text		65,535 characters
+
+date		YYYY-MM-DD	2020-06-09
+time		HH:MM:SS	11:51:10
+year		YYYY		2020
+
+
+ORDER PROCESSING SYSTEM
+--------------------------
+creating table:
+----------------
+customers
+	custno - (p), custname - nn, address, phone - (u)
+items
+-----
+	itemno - (p), itemname - nn, unitprice - n(7,2) - should be non-zero and non-negative
+	opstock 
+
+orders
+------
+	orderno - (p), orderdate - d - default is system date, custno - (f) - ordervalue - default 0
+
+orderdetails
+------------
+	orderno - (f), itemno - (f), qty - nonzero, non-negative
+	(orderno+itemno - (p))
+
+CREATE TABLE customers
+(custno 	int 		IDENTITY(1,1) 	CONSTRAINT customer_custno_pk 	primary key,
+ custname 	varchar(10) 	CONSTRAINT customer_custname_nn not null,
+ addr 		varchar(20),
+ phone 		char(10) 	CONSTRAINT customer_phone_un 	UNIQUE
+);
+
+INSERT INTO customers (custname, addr, phone)
+VALUES ('srinivas', 'vizag', '9247175823');
+
+INSERT INTO customers (custname, addr, phone)
+VALUES ('divya', 'bengaluru', '9247175824');
+
+DELETE FROM customers
+WHERE custno = 2;
+
+SELECT *
+FROM customers;
+
+
+CREATE TABLE items
+(itemno 	int 		IDENTITY(1,1)	CONSTRAINT items_itemno_pk 	primary key,
+ itemname 	varchar(20) 	CONSTRAINT items_itemname_nn 	not null,
+ unitprice 	decimal(7,2) 	CONSTRAINT items_unitprice_ch 	check(unitprice > 0),
+ opstock 	int
+);
+
+CREATE  TABLE orders
+(orderno 	int 		IDENTITY(1,1)	CONSTRAINT orders_orderno_pk 	PRIMARY KEY,
+ orderdate 	DATE 		CONSTRAINT orders_orderdate_df 	DEFAULT GETDATE(),
+ custno 	int 		CONSTRAINT orders_custno_fk 	REFERENCES customers(custno),
+ ordervalue 	decimal(7,2) 	CONSTRAINT orders_ordervalue_df	DEFAULT 0
+);
+
+CREATE  TABLE  orderdetails
+(orderno  int CONSTRAINT  orderdetails_orderno_fk  REFERENCES  orders(orderno),
+ itemno   int CONSTRAINT  orderdetails_itemno_fk   REFERENCES  items(itemno),
+ qty      int CONSTRAINT  orderdetails_qty_chk     CHECK (qty > 0),
+ CONSTRAINT  orderdetails_orderno_itemno_pk   	   PRIMARY KEY(orderno, itemno)
+);
+
+
+how to display all tables present in the current database?
+----------------------------------------------------------
+SELECT *
+FROM   information_schema.tables;
+
+how to display structure of the table?
+----------------------------------------
+EXEC SP_HELP 'customers';
+
+auto increment facility:
+--------------------------
+IDENTITY (seed, increment)
+
+
+ALTER TABLE:
+-------------
+emp2 - empno int, ename v(5)
+
+CREATE TABLE emp2
+(empno	int,
+ ename	varchar(5)
+);
+
+1) add a new column desg - v(10)
+2) add two more columns basic - d(7,2), hra - d(7,2), da - d(7,2)
+3) insert atleast 3 rows.
+4) increase the width of ename to 10 characters.
+5) decrease the width of ename to 3 characters.
+6) delete hra and da columns
+7) rename the column desg to job_title
+8) add primary key constraint
+    Note: to add a primary key constraint, the column should be defined as not null.
+9) add a new column deptno - int
+
+10) create another table dept2
+deptno - int - (p), dname - v(10)
+
+11) add a foreign key constraint on deptno in emp2 table.
+12) add a check constraint for basic such that it should be minimum of 5000 and maximum of 50000.
+13) drop primary key constraint
+14) drop foreign key constraint
+15) drop check constraint
+16) drop emp2, dept2 tables finally.
+
+
+
+CREATE TABLE emp12
+(empno    int,
+ ename    varchar(5)
+);
+
+ 
+
+2
+
+ 
+
+ ALTER TABLE emp12 
+ADD desg varchar(10);
+
+ 
+
+3 
+ALTER TABLE emp2
+ADD basispay decimal(7,2),hra decimal(7,2),da decimal(7,2);
+
+ 
+
+4  
+
+ 
+
+INSERT INTO emp12(empno,ename,desg,bsc,hra)VALUES(1,'shru','se',20000.00,10000.00); 
+INSERT INTO emp12 (empno,empname,desg,basic,hra)VALUES(2,'shrut','seng',19000.00,11000.00); 
+INSERT INTO emp12 (empno,empname,desg,basic,hra)VALUES(3,'utis','seng',20000.00,10000.00);
+
+ 
+
+5
+
+ 
+
+ALTER TABLE emp12 
+ALTER COLUMN ename varchar(10);
+
+ 
+
+6
+
+ 
+
+
+ALTER TABLE emp12 
+ALTER COLUMN ename varchar(3);
+
+ 
+
+ 
+
+7
+
+ 
+
+ALTER TABLE emp2
+DROP COLUMN hra, da;
+ 
+
+
+8
+exec sp_rename 'emp12.desg','jobtitle';
+
+ 
+
+9
+ALTER TABLE emp12 ALTER column empno int not null;
+ALTER TABLE emp12 ADD CONSTRAINT emp12_empno_pk PRIMARY KEY (empno);
+
+ 
+
+10
+ALTER TABLE emp12 
+ADD deptno int;
+
+ 
+
+11
+CREATE TABLE dept2
+(deptno    int,
+ dname    varchar(10)
+);
+
+ 
+
+ 
+
+12
+ALTER TABLE dept2 alter column deptno int not null;
+ALTER TABLE dept2 ADD CONSTRAINT dept2_deptno_pk PRIMARY KEY (deptno);
+ALTER TABLE emp12 ADD CONSTRAINT emp12_deptno_fk FOREIGN KEY(deptno) REFERENCES dept2(deptno);
+
+ 
+
+ 
+
+13
+ALTER TABLE emp12 ADD CONSTRAINT emp12_bsc_ck CHECK(bsc>=5000 and bsc<=50000);
+
+ 
+
+
+14
+ALTER TABLE emp12 DROP CONSTRAINT emp12_empno_pk ;
+
+ 
+
+15
+ALTER TABLE emp12 DROP CONSTRAINT emp12_deptno_fk ;
+
+ 
+
+16
+ALTER TABLE emp12 DROP CONSTRAINT emp12_bsc_ck ;
+
+ 
+
+ 
+
+17
+
+ 
+
+
+DROP table emp12;
+DROP table dept2;
+
+
+SELECT:
+-------
+SELECT column-list / *
+FROM table_name
+[WHERE condition]
+[GROUP BY column-list]
+[HAVING condition]
+[ORDER BY column_list];
+
+SELECT  job_id, job_title
+FROM    jobs;
+
+SELECT department_id, department_name
+FROM   departments;
+
+SELECT employee_id, first_name, hire_date, job_id, salary
+FROM employees;
+
+
+SELECT command can perform the following 4 operations.
+a) arithmetic operations
+b) column aliases
+    alternate name given for columns in the output of SELECT command.
+    column aliases must be enclosed within double quotes unless it is a single word.
+    optionally we may use "AS" keyword after the column name in the SELECT list.
+
+c) concatenated columns
+    combining two or more columns.
+    using concatenation operator ( + )  
+d) literals
+    literals must be enclosed within single quotes.
+    it is repeated for each row in the output of the select command.
+
+display annual salary for all employees excluding commission amount.
+
+SELECT employee_id, first_name, salary, salary * 12 AS "Annual Salary"
+FROM employees;
+
+display full name for all employees.
+
+SELECT first_name + last_name AS "Employee Name"
+FROM employees;
+
+SELECT first_name + ' ' + last_name AS "Employee Name"
+FROM employees;
+
+
+null:
+-----
+null means either unassigned, unpredicted or undetermined.
+if a column value during insertion, by default it contain null value.
+null is not same as ZERO.
+it occupy ONE BYTE in the oracle internal storage overhead.
+any operation performed with NULL value, leads to NULL result.
+
+
+handling null values using ISNULL() library functions:
+------------------------------------------------------
+ISNULL(col/expr, non-null-value)
+for every occurance of null value in the col/expr, is substituted with non-null-value specified.
+
+display monthly salary for all emploees including commission amount.
+
+SELECT employee_id, first_name,  salary, 
+commission_pct AS "commission percentage", 
+salary*commission_pct AS "Commission Amount", 
+salary + salary*ISNULL(commission_pct,0) AS "Monthly Salary"
+FROM  employees;
+
+DISTINCT qualifier:
+---------------------
+eliminate duplicate rows in the output of SELECT command.
+
+SELECT DISTINCT department_id
+FROM employees;
+
+SELECT DISTINCT job_id
+FROM employees;
+
+SELECT DISTINCT department_id, job_id
+FROM employees;
+
+WHERE clause:
+---------------
+it is for restriction operation.
+
+arithmetic operators: + - * / 
+relational operators : > < = >= <= !=  (or) <>
+logical operators : and, or, not    
+
+display all employees who earn salary more than 15000.
+
+SELECT first_name, salary
+FROM  employees
+WHERE salary > 15000;
+
+display all employees who are working department 50.
+
+SELECT first_name, department_id
+FROM employees
+WHERE department_id = 50;
+
+display the details of Steven.
+
+SELECT employee_id, first_name, job_id, salary
+FROM employees
+WHERE first_name = 'Steven';
+
+display all employees who were joined on or before 31st december 2005.
+
+SELECT employee_id, first_name, hire_date
+FROM employees
+WHERE hire_date <= '31-dec-2005';
+
+display all employees who are working department 50 and earn salary less than 10000.
+
+SELECT employee_id, first_name, department_id, salary
+FROM employees
+WHERE department_id = 50
+AND salary < 10000;
+
+display all employees who are sales managers or who earn more than 10000.
+
+SELECT employee_id, first_name, job_id, salary
+FROM employees
+WHERE job_id =  'SA_MAN'
+OR salary > 10000;
+
+display all employees except purchase clerks.
+
+SELECT employee_id, first_name, job_id, salary
+FROM employees
+WHERE job_id != 'PU_CLERK';
+
+SQL Operators:
+-------------
+a) BETWEEN value-1 AND value-2
+b) IN (value-1, value-2, ...)
+c) LIKE 'character pattern'
+`   wild card character:
+
+    %                   	represents 0 or more characters
+    _	                    represents 1 character
+    [list_of_characters]	any single character from the specified set
+    [character-character]	any single character within the specified range
+    [^]			            any single character not within the range
+
+
+d) IS NULL
+
+Negation Operators:
+---------------------
+a) NOT BETWEEN
+b) NOT IN
+c) NOT LIKE
+d) IS NOT NULL
+
+
+
+SELECT employee_id, first_name, salary
+FROM employees
+WHERe salary BETWEEN 10000 AND 15000;
+
+SELECT employee_id, first_name, department_id
+FROM employees
+WHERE department_id IN (30,50,70,90);
+
+
+SELECT employee_id, first_name
+FROM employees
+WHERE first_name LIKE '%n%';
+
+SELECT employee_id, first_name
+FROM employees
+WHERE first_name LIKE '_o%';
+
+SELECT employee_id, first_name
+FROM employees
+WHERE first_name LIKE '____';   (4 underscores)
+
+
+display all employees who were joined in the year 2005.
+
+SELECT employee_id, first_name, hire_date
+FROM employees
+WHERE hire_date like '%-05';
+
+display all employees whose first name begin with any alphabet between A and  D.
+
+SELECT employee_id, first_name, salary
+FROM employees
+WHERE first_name LIKE '[A-D]%';
+
+display all employees whose first name begin with alphabet M, S or T.
+
+SELECT employee_id, first_name, salary
+FROM employees
+WHERE first_name LIKE '[MST]%';
+
+display all employees whose first name do not begin with alphabet K, L or M.
+SELECT employee_id, first_name, salary
+FROM employees
+WHERE first_name LIKE '[^K-M]%';
+
+display all employees who do not earn any commission percentage.
+
+SELECT employee_id, first_name, commission_pct
+FROM employees
+WHERE commission_pct IS NULL;
+
+ORDER BY:
+---------
+normally the order of retrieval of rows using SELECT statement is insignificant. However we can use 
+ORDER BY clause to specify the sorting order. 
+If used, it must be the last clause in the SELECT statement.
+
+SELECT employee_id, first_name, salary
+FROM employees
+ORDER BY salary DESC;
+
+SELECT employee_id, first_name, salary
+FROM employees
+ORDER BY salary DESC, first_name ASC;
+
+SELECT employee_id, first_name, department_id, job_id, salary
+FROM employees
+WHERE department_id = 50
+ORDER BY 3, 4, 5 DESC, 2 DESC;
+
+-- ORDER BY department_id, job_id, salary DESC, first_name DESC;
+
+
+display all employees in the descending order of Monthly salary.
+
+                            Library Functions
+                            -----------------
+1) Mathematical Functions:
+    abs(), sin(), cos(), tan(), degrees(), radians(),
+    ceiling(), floor(), pi(), power(), rand(), round(), sqrt(), square()	
+	asin(), acos(), atan()
+
+    select abs(-25), sqrt(25), power(5,6)
+    select pi()
+    select sin(pi()/2)
+    select rand() : generate a random number between 0 and 1.
+
+
+2) string functions
+    len(), upper(), lower(), left(), right(), substring()
+    ascii(), char(), concat(), ltrim(), rtrim(), trim(), replace(), reverse(), str()
+
+	
+    select left(first_name, 2), right(first_name, 3), substring(first_name, 2,3)
+    from employees;
+
+    select first_name, reverse(first_name), replace(first_name, 'S', 'W')
+    from employees;
+
+3) date functions
+    getdate()
+    day(), month(), year()
+    datediff(), dateadd(), isdate(), datename()
+
+    select getdate(), day(getdate()), month(getdate()), year(getdate())
+
+    SELECT DATEADD(month, 1, '20060830');
+    select isdate('20190229') : return 0 since 29-feb-2019 is an invalid date.
+
+    SELECT first_name, hire_date, datename(weekday, hire_date)
+    FROM employees;
+
+
+4) logical functions
+    IIF(), CHOOSE()
+
+    IIF - Immediate IF
+    
+    SELECT first_name, salary, iif(salary >= 15000, 'Costly Employee', 'General Employee') AS "Status"
+    FROM employees;
+
+
+4) conversion functions
+    parse()
+
+6) group functions (or aggregate) functions
+    avg(), sum(), count(), min(), max()
+    grouping
+
+CASE:
+-----
+SELECT   employee_id, job_id,   
+      CASE job_id
+         WHEN 1 THEN 'Programmer'  
+         WHEN 2 THEN 'Sales Manager'  
+         WHEN 3 THEN 'Purchase Clerk'  
+         WHEN 4 THEN 'Accounting Manager'  
+         ELSE 'General Employee'  
+      END AS "Job Title"
+FROM employees;
+
+
+SELECT   ProductNumber, Name, "Price Range" =   
+      CASE   
+         WHEN ListPrice =  0 THEN 'Mfg item - not for resale'  
+         WHEN ListPrice < 50 THEN 'Under $50'  
+         WHEN ListPrice >= 50 and ListPrice < 250 THEN 'Under $250'  
+         WHEN ListPrice >= 250 and ListPrice < 1000 THEN 'Under $1000'  
+         ELSE 'Over $1000'  
+      END  
+FROM Production.Product  
+ORDER BY ProductNumber ;  
+
+
+
+
+
+CREATE TABLE sales.stores (
+	store_id INT IDENTITY (1, 1) PRIMARY KEY,
+	store_name VARCHAR (255) NOT NULL,
+	phone VARCHAR (25),
+	email VARCHAR (255),
+	street VARCHAR (255),
+	city VARCHAR (255),
+	state VARCHAR (10),
+	zip_code VARCHAR (5)
+);
+
+CREATE TABLE sales.staffs (
+	staff_id INT IDENTITY (1, 1) PRIMARY KEY,
+	first_name VARCHAR (50) NOT NULL,
+	last_name VARCHAR (50) NOT NULL,
+	email VARCHAR (255) NOT NULL UNIQUE,
+	phone VARCHAR (25),
+	active tinyint NOT NULL,
+	store_id INT NOT NULL,
+	manager_id INT,
+	FOREIGN KEY (store_id) 
+        REFERENCES sales.stores (store_id) 
+        ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (manager_id) 
+        REFERENCES sales.staffs (staff_id) 
+        ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+
+CREATE  DATABASE  production;
+
+USE  production;
+
+
+CREATE TABLE production.categories (
+	category_id INT IDENTITY (1, 1) PRIMARY KEY,
+	category_name VARCHAR (255) NOT NULL
+);
+
+CREATE TABLE production.brands (
+	brand_id INT IDENTITY (1, 1) PRIMARY KEY,
+	brand_name VARCHAR (255) NOT NULL
+);
+
+CREATE TABLE production.products (
+	product_id INT IDENTITY (1, 1) PRIMARY KEY,
+	product_name VARCHAR (255) NOT NULL,
+	brand_id INT NOT NULL,
+	category_id INT NOT NULL,
+	model_year SMALLINT NOT NULL,
+	list_price DECIMAL (10, 2) NOT NULL,
+	FOREIGN KEY (category_id) 
+        REFERENCES production.categories (category_id) 
+        ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (brand_id) 
+        REFERENCES sales.brands (brand_id) 
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+CREATE TABLE sales.customers (
+	customer_id INT IDENTITY (1, 1) PRIMARY KEY,
+	first_name VARCHAR (255) NOT NULL,
+	last_name VARCHAR (255) NOT NULL,
+	phone VARCHAR (25),
+	email VARCHAR (255) NOT NULL,
+	street VARCHAR (255),
+	city VARCHAR (50),
+	state VARCHAR (25),
+	zip_code VARCHAR (5)
+);
+
+CREATE TABLE sales.orders (
+	order_id INT IDENTITY (1, 1) PRIMARY KEY,
+	customer_id INT,
+	order_status tinyint NOT NULL,
+	-- Order status: 1 = Pending; 2 = Processing; 3 = Rejected; 4 = Completed
+	order_date DATE NOT NULL,
+	required_date DATE NOT NULL,
+	shipped_date DATE,
+	store_id INT NOT NULL,
+	staff_id INT NOT NULL,
+	FOREIGN KEY (customer_id) 
+        REFERENCES sales.customers (customer_id) 
+        ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (store_id) 
+        REFERENCES sales.stores (store_id) 
+        ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (staff_id) 
+        REFERENCES sales.staffs (staff_id) 
+        ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE sales.order_items(
+	order_id INT,
+	item_id INT,
+	product_id INT NOT NULL,
+	quantity INT NOT NULL,
+	list_price DECIMAL (10, 2) NOT NULL,
+	discount DECIMAL (4, 2) NOT NULL DEFAULT 0,
+	PRIMARY KEY (order_id, item_id),
+	FOREIGN KEY (order_id) 
+        REFERENCES sales.orders (order_id) 
+        ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (product_id) 
+        REFERENCES production.products (product_id) 
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE production.stocks (
+	store_id INT,
+	product_id INT,
+	quantity INT,
+	PRIMARY KEY (store_id, product_id),
+	FOREIGN KEY (store_id) 
+        REFERENCES sales.stores (store_id) 
+        ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (product_id) 
+        REFERENCES production.products (product_id) 
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+
+
+
+CREATE  DATABASE  hrdb;
+
+USE  hrdb;
+
+DROP  DATABASE  hrdb;
+
+
+datatype					range
+-------------------------------------------------------------------------------------
+bigint		-9,223,372,036,854,775,808  	to   	-9,223,372,036,854,775,807
+int		-2,147,483,648			to	-2,147,483,647
+smallint	-32768				to	32,767
+tinyint		0				to	255
+decimal(s,d)	-10^38+1			to	10^38-1
+
+char(w)		255 characters	(fixed length - space padded)
+varchar(w)	255 characters	(varying length)
+text		65,535 characters
+
+date		YYYY-MM-DD	2020-05-30
+time		HH:MM:SS	11:51:10
+year		YYYY		2020
+
+
+Constraints
+------------
+NOT NULL, DEFAULT, UNIQUE, PRIMARY KEY
+
+Creating table:
+---------------
+CREATE  TABLE  employee
+(e_id     int  NOT  NULL,
+ e_name   varchar(20),
+ e_salary int,
+ e_age    int,
+ e_gender varchar(20),
+ e_dept   varchar(20),
+ PRIMARY KEY(e_id)
+);
+
+Inserting rows:
+----------------
+INSERT  INTO  employee
+VALUES (1, 'Sarat', 95000, 45, 'Male', 'Operations');
+
+Selecting rows:
+---------------
+SELECT e_name
+FROM employee;
+
+SELECT e_age
+FROM employee;
+
+SELECT e_name, e_gender, e_salary
+FROM employee;
+
+SELECT *
+FROM   employee;
+
+DISTINCT clause:
+-----------------
+SELECT  DISTINCT  e_gender
+FROM  employees;
+
+WHERE clause:
+-------------
+SELECT  *
+FROM   employee
+WHERE  e_gender = 'Male';
+
+
+SELECT  *
+FROM   employee
+WHERE  e_age < 30;
+
+SELECT  *
+FROM   employee
+WHERE  e_salary > 10000;
+
+
+AND, OR, NOT operator:
+-----------------------
+SELECT  *
+FROM  employee
+WHERE e_gender = 'Male' 
+AND   e_age < 30;
+
+
+SELECT  *
+FROM  employee
+WHERE e_dept = 'Operations' 
+AND   e_salary > 50000;
+
+SELECT  *
+FROM  employee
+WHERE e_dept = 'Operations' 
+OR  e_dept = 'Analytics';
+
+SELECT  *
+FROM  employee
+WHERE e_salary > 50000
+OR    e_age > 30;
+
+
+SELECT  *
+FROM  employee
+WHERE NOT e_gender = 'Female';
+
+
+SELECT  *
+FROM  employee
+WHERE NOT e_age < 30;
+
+LIKE operator:
+---------------
+%	represents 0 or more characters
+_	represents 1 character
+[list_of_characters]	any single character from the specified set
+[character-character]	any single character within the specified range
+[^]			any single character not within the range
+
+SELECT  *
+FROM  employee
+WHERE e_name LIKE  'J%';
+
+SELECT  *
+FROM  employee
+WHERE e_age LIKE '3_';
+
+BETWEEN operator:
+-----------------
+SELECT  *
+FROM  employee
+WHERE e_age BETWEEN 25 AND 35;
+
+SELECT  *
+FROM  employee
+WHERE salary BETWEEN  45000 AND 90000;
+
+SELECT
+    order_id,
+    customer_id,
+    order_date,
+    order_status
+FROM
+    sales.orders
+WHERE
+    order_date BETWEEN '20170115' AND '20170117'  /* YYYYMMDD format */
+ORDER BY
+    order_date;
+
+
+
+
+NULL handling:
+--------------
+Normally, the result of a logical expression is TRUE or FALSE. 
+However, when NULL is involved in the logical evaluation, the result is UNKNOWN . 
+This is called a three-valued logic: TRUE, FALSE, and UNKNOWN.
+
+The results of the following comparisons are UNKNOWN:
+
+NULL = 0
+NULL <> 0
+NULL > 0
+NULL = NULL
+
+NULL is equal to nothing, even NULL is not equal to NULL because each NULL could be different.
+
+truth table:
+-----------------------------------
+		TRUE	FALSE	UNKNOWN
+
+TRUE		TRUE	FALSE	UNKNOWN
+FALSE		FALSE	FALSE	FALSE
+UNKNOWN		UNKNOWN	FALSE	UNKNOWN
+
+
+IS NULL:
+--------
+SELECT
+    customer_id,
+    first_name,
+    last_name,
+    phone
+FROM
+    sales.customers
+WHERE
+    phone IS NULL		/* try to use phone = null instead and observe the result */
+ORDER BY
+    first_name,
+    last_name;
+
+
+
+Functions
+------------
+min(), max(), count(), sum(), avg()
+
+SELECT  MIN(e_age)
+FROM  employee;
+
+SELECT  MIN(e_salary)
+FROM  employee;
+
+SELECT  COUNT(*)
+FROM  employee
+WHERE e_gender = 'Male';
+
+SELECT  SUM(salary), AVG(salary)
+FROM  employee;
+
+
+ltrim(), lower(), upper(), reverse(), substring()
+--------------------------------------------------
+SELECT  '     impulse';
+
+SELECT  LTRIM('      impulse');
+
+SELECT  LOWER('SQL Server'), UPPER('sql server'), REVERSE('SQL'), SUBSTRING('SQL Server', 5,6);
+
+(for SUBSTRING index begin at 1 not with 0)
+
+
+ORDER BY clause:
+-------------------
+SELECT  *
+FROM  employee
+ORDER  BY  e_salary;
+
+SELECT  *
+FROM  employee
+ORDER  BY  e_salary DESC;
+
+
+OFFSET FETCH clause:
+----------------------
+The OFFSET and FETCH clauses are the options of the ORDER BY clause. 
+They allow you to limit the number of rows to be returned by a query.
+
+ORDER BY column_list [ASC |DESC]
+OFFSET offset_row_count {ROW | ROWS}
+FETCH {FIRST | NEXT} fetch_row_count {ROW | ROWS} ONLY
+
+SELECT
+    product_name,
+    list_price
+FROM
+    production.products
+ORDER BY
+    list_price,
+    product_name
+OFFSET 10 rows;
+
+(above query skips first 10 rows in the output)
+
+
+SELECT
+    product_name,
+    list_price
+FROM
+    production.products
+ORDER BY
+    list_price,
+    product_name
+OFFSET 10 rows
+FETCH  NEXT 10 rows ONLY;
+
+(above query skips first 10 rows and display the next 10 rows in the output)
+
+
+SELECT
+    product_name,
+    list_price
+FROM
+    production.products
+ORDER BY
+    list_price DESC,
+    product_name 
+OFFSET 0 ROWS 
+FETCH FIRST 10 ROWS ONLY;
+
+(above query display top 10 most expensive products)
+
+
+TOP  clause:  (must always be used in conjunction with ORDER BY clause)
+------------
+syntax:
+-------
+SELECT TOP (expression) [PERCENT]
+    [WITH TIES]
+FROM 
+    table_name
+ORDER BY 
+    column_name;
+
+
+SELECT TOP 10
+    product_name, 
+    list_price
+FROM
+    production.products
+ORDER BY 
+    list_price DESC;
+
+
+SELECT TOP 1 PERCENT
+    product_name, 
+    list_price
+FROM
+    production.products
+ORDER BY 
+    list_price DESC;
+
+
+SELECT TOP 3 WITH TIES	    /* (include duplicates if any) */
+    product_name, 
+    list_price
+FROM
+    production.products
+ORDER BY 
+    list_price DESC;
+
+
+SELECT  TOP  3   *
+FROM  employee
+ORDER  BY   e_age DESC;
+
+
+GROUP  BY:
+-------------
+SELECT  sum(e_salary), e_gender
+FROM  employee
+GROUP BY e_gender;
+
+
+SELECT  avg(e_age), e_dept
+FROM  employee
+GROUP BY e_dept
+ORDER BY avg(e_age)  DESC;
+
+
+SELECT  e_dept, avg(e_salary) AS  avg_salary
+FROM   employee
+GROUP  BY  e_dept
+HAVING  avg(e_salary) > 5000;
+
+
+UPDATE:
+-------
+UPDATE  employee
+SET  e_age = 42
+WHERE  e_name = 'John';
+
+
+DELETE:
+--------
+DELETE  FROM  employee
+WHERE  e_age = 33;
+
+TRUNCATE  TABLE:
+------------------
+TRUNCATE  TABLE  employee;
+
+INNER JOIN:  (intersection)
+----------
+SELECT  employee.e_name, employee.e_dept, department.d_name, department.d_loc
+FROM   employee
+INNER JOIN  department
+ON  employee.d_dept = department.d_name;
+
+LEFT JOIN:
+-----------
+SELECT  employee.e_name, employee.e_dept, department.d_name, department.d_loc
+FROM   employee
+LEFT JOIN  department
+ON  employee.d_dept = department.d_name;
+
+RIGHT JOIN:
+-------------
+SELECT  employee.e_name, employee.e_dept, department.d_name, department.d_loc
+FROM   employee
+RIGHT JOIN  department
+ON  employee.d_dept = department.d_name;
+
+FULL JOIN:  (unmatched rows will get NULL values in columns)
+------------
+SELECT  employee.e_name, employee.e_dept, department.d_name, department.d_loc
+FROM   employee
+FULL JOIN  department
+ON  employee.d_dept = department.d_name;
+
+
+CROSS JOIN:
+-------------
+SELECT
+    product_id,
+    product_name,
+    store_id,
+    0 AS quantity
+FROM
+    production.products
+CROSS JOIN sales.stores
+ORDER BY
+    product_name,
+    store_id;
+
+SELF JOIN:
+----------
+SELECT
+    e.first_name + ' ' + e.last_name employee,
+    m.first_name + ' ' + m.last_name manager
+FROM
+    sales.staffs e
+INNER JOIN sales.staffs m ON m.staff_id = e.manager_id
+ORDER BY
+    manager;
+
+
+
+
+
+
+UPDATE USING JOIN:
+------------------
+UPDATE  employee
+SET e_age = e_age + 10
+FROM  employee
+JOIN department
+ON   employee.e_dept = department.d_name
+WHERE d_location = 'New York';
+
+
+DELETE  USING  JOIN:
+----------------------
+DELETE  FROM  employee
+FROM  employee
+JOIN  department
+ON    employee.e_dept = department.d_name
+WHERE d_loc = 'New York';
+
+
+
+SUB QUERY:
+-----------
+
+SELECT
+    order_id,
+    order_date,
+    customer_id
+FROM
+    sales.orders
+WHERE
+    customer_id IN (
+        SELECT
+            customer_id
+        FROM
+            sales.customers
+        WHERE
+            city = 'New York'
+    )
+ORDER BY
+    order_date DESC;
+
+
+
+Nesting Sub Query:
+-------------------
+SELECT
+    product_name,
+    list_price
+FROM
+    production.products
+WHERE
+    list_price > (
+        SELECT
+            AVG (list_price)
+        FROM
+            production.products
+        WHERE
+            brand_id IN (
+                SELECT
+                    brand_id
+                FROM
+                    production.brands
+                WHERE
+                    brand_name = 'Strider'
+                OR brand_name = 'Trek'
+            )
+    )
+ORDER BY
+    list_price;
+
+
+SQL Server subquery is used in place of an expression
+-------------------------------------------------------
+SELECT
+    order_id,
+    order_date,
+    (
+        SELECT
+            MAX (list_price)
+        FROM
+            sales.order_items i
+        WHERE
+            i.order_id = o.order_id
+    ) AS max_list_price
+FROM
+    sales.orders o
+order by order_date desc;
+
+
+ANY:
+-----
+SELECT
+    product_name,
+    list_price
+FROM
+    production.products
+WHERE
+    list_price >= ANY (
+        SELECT
+            AVG (list_price)
+        FROM
+            production.products
+        GROUP BY
+            brand_id
+    )
+
+ALL:
+----
+SELECT
+    product_name,
+    list_price
+FROM
+    production.products
+WHERE
+    list_price >= ALL (
+        SELECT
+            AVG (list_price)
+        FROM
+            production.products
+        GROUP BY
+            brand_id
+    )
+
+SQL Server subquery is used with EXISTS or NOT EXISTS:
+-------------------------------------------------------
+The EXISTS operator returns TRUE if the subquery return results; otherwise it returns FALSE.
+
+On the other hand, the NOT EXISTS is opposite to the EXISTS operator.
+
+SELECT
+    customer_id,
+    first_name,
+    last_name,
+    city
+FROM
+    sales.customers c
+WHERE
+    EXISTS (
+        SELECT
+            customer_id
+        FROM
+            sales.orders o
+        WHERE
+            o.customer_id = c.customer_id
+        AND YEAR (order_date) = 2017
+    )
+ORDER BY
+    first_name,
+    last_name;
+
+SQL Server subquery in the FROM clause:
+----------------------------------------
+SELECT 
+   AVG(order_count) average_order_count_by_staff
+FROM
+(
+    SELECT 
+	staff_id, 
+        COUNT(order_id) order_count
+    FROM 
+	sales.orders
+    GROUP BY 
+	staff_id
+) t;
+
+
+
+Correlated Subquery:
+----------------------
+A correlated subquery is a subquery that uses the values of the outer query. In other words, it depends on 
+the outer query for its values. Because of this dependency, a correlated subquery cannot be executed 
+independently as a simple subquery.
+
+Moreover, a correlated subquery is executed repeatedly, once for each row evaluated by the outer query. The 
+correlated subquery is also known as a repeating subquery.
+
+SELECT
+    product_name,
+    list_price,
+    category_id
+FROM
+    production.products p1
+WHERE
+    list_price IN (
+        SELECT
+            MAX (p2.list_price)
+        FROM
+            production.products p2
+        WHERE
+            p2.category_id = p1.category_id
+        GROUP BY
+            p2.category_id
+    )
+ORDER BY
+    category_id,
+    product_name;
+
+
+
+
+UNION | UNION ALL | EXCEPT  | INTERSECT operator:
+----------------------------------------------------
+SELECT * FROM  student_details1
+UNION  |  UNION ALL  | EXCEPT  |  INTERSECT
+SELECT * FROM  student_details2;
+
+
+VIEWS
+-----
+CREATE   VIEW   female_employees
+AS
+SELECT  *
+FROM    employee
+WHERE   e_gender = 'Female';
+
+
+SELECT   *
+FROM  female_employees;
+
+
+DROP  VIEW   female_employees;
+
+
+ALTER  TABLE:
+---------------
+ALTER  TABLE  employee
+ADD  e_dob  DATE;
+
+
+ALTER  TABLE  employee
+DROP  COLUMN  e_dob;
+
+
+MERGE:
+-------
+MERGE  [Target]  AS  T
+USING  [Source]  AS  S
+	ON  [Join Condition]
+WHEN   MATCHED
+	THEN   [Update Statement]
+WHEN   NOT  MATCHED  BY  TARGET
+	THEN   [Insert Statement]
+WHEN   NOT  MATCHED  BY  SOURCE
+	THEN   [Delete Statement]
+
+assume that we have two table : employee_source and employee_target with the similar columns
+(e_id, e_name, e_salary, e_age, e_gender, e_dept)
+
+MERGE  employee_target  AS  T
+USING  employee_source  AS  S
+	ON  T.e_id = S.e_id
+WHEN   MATCHED
+	THEN  update SET  T.e_salary = S.e_salary, T.e_age = S.e_age
+WHEN   NOT  MATCHED  BY  TARGET
+	THEN  INSERT (e_id, e_name, e_salary, e_gender, e_dept)
+		VALUES  (S.e_id, S.e_name, S.e_salary, S.e_age, S.e_gender, S.e_dept)
+WHEN   NOT  MACTHED  BY  SOURCE
+	THEN  DELETE;
+
+
+SELECT  *
+FROM  employee_target;
+
+SELECT  *
+FROM  employee_source;
+
+[[1:47:16]]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
