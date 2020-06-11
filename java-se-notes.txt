@@ -1,0 +1,425 @@
+What is Java?
+    It is a High level,  strictly but partially object oriented and general purpose language.
+
+History & Evolution
+    James Gosling from Sun micro systems.
+    it is monitored by Oracle Corp.
+
+versions:
+    java 1.1, 1.2, 1.3, 1.4, 1.5
+
+    (J2SE) Java SE - Java Standard Edition     - console / stand-alone / desktop application
+    (J2EE) Java EE - Java Enterprise Edition   - distributed - Web applications
+
+    1.8 (Java 8)
+
+    JDK (Java Development Kit)          -   collection of tools to write java program
+    JRE (Java Runtime Environment)      -   to execute java program
+
+Java Features:
+--------------
+1) simple  
+2) platform independent  
+
+    source code     .java
+    compile it      .class  (byte code)
+    
+    byte code -> JVM -> convert the bytecode into machine code.
+    machine code is executed on the O/S.
+
+    is JDK platform independent?                            -No-
+    is JRE platform independent?                            -No-
+    is JVM (Java Virtual Machine)  platform independent?    -No     
+
+    Only the ByteCode is platform independent.
+    (WORA - Write Once Run Anywhere)
+
+3) secured
+        no pointers in java
+        java programs run inside JVM only.
+
+4) robust  (strong)
+        strong type checking mechanism
+        automatic garbage collection
+        exception handling
+
+5) object oriented
+
+characteristics:
+-------------------
+1) highly case sensitive
+
+
+Java Tokens
+-----------
+It is smallest indivisible part of a program.
+
+1) Identifiers : It is a name given for class, variable, method, interface etc.
+2) Keywords : if, switch, int, float etc.,
+3) Operators
+
+    unary   :   ++, --, !, unary +, unary -
+    binary  :   arithmetic , relational, logical, assignment
+    terinary:   conditional operator ( ? : )
+
+    a) arithmetic operators
+        +   -   *   /   %
+    b) relational operators
+        >   <   ==  >=  <=  !=
+    c) logical operators
+        &&  ||  !
+    d) conditional operator
+        ? :
+    e) increment/decrement operators
+        ++, --
+    f) assignment operators
+        =   +=  -=  *=  /=  %=
+    g) bitwise operators
+        &   |   ~
+    h) miscellaneous (special)
+        []  () instanceof
+
+4) Literals
+    It is a hard coded value.
+
+    a) integer literals
+        int a = 10;
+
+        i) decimal literal  (0-9)
+            10, -5, 0
+        ii) octal literal   (0-7)
+            06, 07, 021
+        iii) hexa decimal literal   (0-9, A-F)
+            0x9734
+        iv) binary literal  (0,1)
+            0b10101
+
+    b) floating-point literals
+        double b = 2.5;
+    c) character literals
+        'A', '7', '?'
+        char ch = 'A';
+    d) string literals
+        "srinivas", "49-53-20/25", "9247175823"
+        String userName = "srinivas";
+    e) boolean literals
+        true, false
+        boolean isValid = true;
+
+    f) void literal
+         null : indicates that a specific reference not refer to anything.
+        
+5) Comments
+    a) //           inline comment
+    b) /* .. */     block comment
+    c) /** .. */    documentation comment
+
+    
+Naming Conventions:
+-------------------
+1) Variable (or) Method (or) Object Identifiers:
+    camel notation  :   first word should be in lowercase.
+                        if it is more than one word, first letter of each word should be in uppercase
+                        and the rest in lowercase.
+
+                        width, boxWidth, boxWidthInMeters, 
+                        display(), displayData()
+
+2) User Defined Data Types (class, interface, enum)
+    pascal notation : first letter of each word should be in uppercase.
+
+        Box, Exception, ArrayIndexOutOfBoundsException
+
+3) constant identifiers:
+    uppercase notation : if it is more than one word, we can use underscores.
+        PIE, MAX_MARKS, PASS_MARKS, CLASS_STRENGTH
+
+d) package identifiers:
+    lowercase notatation.
+    often abbreviated.
+
+            util, awt, io, lang
+
+Indentation:
+    keeping proper spaces while writing program.
+
+Comments:
+    use comments liberally.
+
+
+d:\pallavi\JavaSEWorkspace
+------------------------------
+ToStartWith -> src -> 
+
+datatypes:
+-----------
+1) primitive data Types
+    a) numeric data type
+        i) integral type
+                byte        1       -2^7 to 2^7-1      
+                short       2       -2^15 to 2^15-1
+                int         4
+                long        8
+        2) floating-point type
+                float       4
+                double      8
+
+    b) non-numeric data type
+        char                2
+        boolean             1
+        void
+
+2) user defined types
+    what is the meaning of user?
+    user of java -> developer
+
+    a) class
+    b) interface
+    c) enum
+    d) annotations
+
+    String : it is a pre-defined class, it not a data type.
+
+Control structures:
+-------------------
+    if, switch, for, while, do..while, break, continue, labelled break, labelled continue.
+
+
+Java API (Application programming interface)
+Scanner:
+    it is a pre-defined class in java.util package
+    to recieve data from a stream.
+    stream means flow of data.
+
+standard input stream:
+----------------------
+    data flow from keyboard to your application. it is always in the form of binary internally.
+
+    language    input stream            to convert binary data into string
+                (binary)
+    ------------------------------------------------------------------------------
+    'C'         stdin                   scanf()
+    C++         cin                     >> (extraction operator)
+    java        System.in               Scanner 
+
+Scanner scan = new Scanner(System.in);
+
+    scan.nextInt()      : convert the binary data in the standard input stream into int.
+    scan.nextFloat()    : convert the binary data in the standard input stream into float.
+    scan.nextDouble()   : convert the binary data in the standard input stream into double.
+    scan.next()         : convert the binary data in the standard input stream into string.
+    scan.nextLine()     : convert the binary data in the standard input stream into string.
+
+                    
+                    
+                                            Arrays
+                                            ------
+1. Linear collection of homogeneous data items.
+2. are dynamic. means memory allocation happens at runtime.
+3. size can be dynamic but it is always fixed.
+4. 0-based index
+5. arrays are objects.
+6. length property return no. of elements in the array.
+
+declaration:
+-------------
+datatype[] arrayName;
+datatype   arrayName[];
+
+allocate memory:
+----------------
+arrayName = new datatype[size];
+
+declaration & allocation:
+--------------------------
+datatype[] arrayName = new datatype[size];
+
+initialization:
+----------------
+datatype[] arrayName = {value-1, value-2, ...};
+
+
+enhanced for loop:
+------------------
+for(datatype   var : arrayName) {
+    statment(s);
+}
+
+1) index variable is always an int in for loop.
+   index variable is same as the array type in the enhanced for loop.
+
+2) enhanced for loop can be used only when you want to process all entries from top to bottom order.
+
+
+
+
+
+
+
+
+
+
+
+                                Command Line Arguments
+                                ----------------------
+1. it is another way giving input to your program
+
+
+Program:
+--------
+calculate min, max, sum, average of all numbers that are given through command line arguments.
+
+
+                                Functions
+                                ---------
+1. it is a self-contained sub program that do a specific task that can be used repeatedly.
+2. represent a behaviour.
+
+elements of a function:
+-----------------------
+function prototype (function declaration / function signature) :
+    returnType  functionName(datatype  arg-1, datatype  arg-2, ....);
+
+function definition (function code) :
+    returnType  functionName(datatype arg-1, datatype arg-2, ....) {
+        statement(s);
+    }
+
+function call :
+    [var = ] functionName(arg-1,arg-2,....);
+
+write a function to calculate factorial. calculate ncr and npr using the factorial function
+and display them.
+ncr = n! / r! * n-r!
+npr = n! / n-r!
+
+
+                                VARARGS (Variable Arguments) - JDK 1.5+
+                                ----------------------------------------
+...     is called "ellipsis".
+
+                                    OOPS   (OOP)
+                        (Object Oriented Programming System)
+
+understand "programming paradigms".
+
+1. OOP is the latest programming paradigm.
+2. to bring logical structuring as close as possible to the real world.
+
+concepts:
+---------
+1) class, object
+2) encapsulation
+3) data hiding
+4) abstraction
+5) inheritance
+6) polymorphism
+7) persistence
+
+class:
+------
+It is a user-defined datatype that represent an entity in terms of properties and behaviours.
+properties are represented by using variables (are also known as field / data member)
+behaviours are represented by using functions (are also known as methods / member functions)
+
+classes are also called models.
+class must be designed as an independent unit.
+class do not occupy any memory, since it is just definition.
+
+object:
+-------
+it is a variable whose datatype is a class name.
+object itself is an entity.
+
+encapsulation: (data hiding)
+-----------------------------
+it is the process of providing an indirect access to fields.
+these fields are protected by access specifiers, and an indirect access is provided through 
+setters (mutators) and getters (accessors).
+
+
+ComplexNumber
+    real, imaginary
+    setReal(), setImaginary()
+
+access specifier:
+-----------------
+1) default      : can be applied on class | field | method
+                  the scope of default members are current package (in any other class)
+2) private      : can be applied on field | method
+                  the scope is the current class only.
+3) public       : can be applied on class | field | method
+                  the scope is wherever we can access package.
+4) protected    : can be applied on field | method
+                  the scope is current class and any of the sub class in the current package.
+
+Note:
+-----
+    data members are independent of objects.
+    but methods are stored in a special memory called as "method area", which are accessed
+    by all objects of the class.
+
+Assignment-1:
+-------------
+1) accept cost price and selling price, print the amount of profit or loss.
+2) accept two numbers and an arithmetic operator. perform the operation and print the result.
+3) factorial program
+4) number palindrome
+5) prime number program
+6) fibonacci series
+7) one example program on labelled break
+8) one example program on labelled continue
+9) accept n. display all primes between 1 and n.
+10) develop a java application to accept cost of ONE COVID-19 testing kit. and no. of kits needed and
+    compute the total cost.
+    select a discount based on the following scenario.
+    compute and display the payable amount.
+
+    kits            discount
+    -------------------------
+    < 2500              0
+    2500 - 50000         5%
+    50000 - 75000       20%
+    >= 75000            30%
+11) accept an array of 20 integers. sort the array using any sorting technique you know and display
+    the sorted array.
+12) matrix addition
+13) matrix multiplication
+14) matrix transpose
+
+15) create a class rectangle (length and breadth).
+    write setters, getters, area() and perimeter()
+    create the application program also.
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
