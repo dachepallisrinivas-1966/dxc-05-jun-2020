@@ -1,0 +1,1008 @@
+What is Java?
+    It is a High level,  strictly but partially object oriented and general purpose language.
+
+History & Evolution
+    James Gosling from Sun micro systems.
+    it is monitored by Oracle Corp.
+
+versions:
+    java 1.1, 1.2, 1.3, 1.4, 1.5
+
+    (J2SE) Java SE - Java Standard Edition     - console / stand-alone / desktop application
+    (J2EE) Java EE - Java Enterprise Edition   - distributed - Web applications
+
+    1.8 (Java 8)
+
+    JDK (Java Development Kit)          -   collection of tools to write java program
+    JRE (Java Runtime Environment)      -   to execute java program
+
+Java Features:
+--------------
+1) simple  
+2) platform independent  
+
+    source code     .java
+    compile it      .class  (byte code)
+    
+    byte code -> JVM -> convert the bytecode into machine code.
+    machine code is executed on the O/S.
+
+    is JDK platform independent?                            -No-
+    is JRE platform independent?                            -No-
+    is JVM (Java Virtual Machine)  platform independent?    -No     
+
+    Only the ByteCode is platform independent.
+    (WORA - Write Once Run Anywhere)
+
+3) secured
+        no pointers in java
+        java programs run inside JVM only.
+
+4) robust  (strong)
+        strong type checking mechanism
+        automatic garbage collection
+        exception handling
+
+5) object oriented
+
+characteristics:
+-------------------
+1) highly case sensitive
+
+
+Java Tokens
+-----------
+It is smallest indivisible part of a program.
+
+1) Identifiers : It is a name given for class, variable, method, interface etc.
+2) Keywords : if, switch, int, float etc.,
+3) Operators
+
+    unary   :   ++, --, !, unary +, unary -
+    binary  :   arithmetic , relational, logical, assignment
+    terinary:   conditional operator ( ? : )
+
+    a) arithmetic operators
+        +   -   *   /   %
+    b) relational operators
+        >   <   ==  >=  <=  !=
+    c) logical operators
+        &&  ||  !
+    d) conditional operator
+        ? :
+    e) increment/decrement operators
+        ++, --
+    f) assignment operators
+        =   +=  -=  *=  /=  %=
+    g) bitwise operators
+        &   |   ~
+    h) miscellaneous (special)
+        []  () instanceof
+
+4) Literals
+    It is a hard coded value.
+
+    a) integer literals
+        int a = 10;
+
+        i) decimal literal  (0-9)
+            10, -5, 0
+        ii) octal literal   (0-7)
+            06, 07, 021
+        iii) hexa decimal literal   (0-9, A-F)
+            0x9734
+        iv) binary literal  (0,1)
+            0b10101
+
+    b) floating-point literals
+        double b = 2.5;
+    c) character literals
+        'A', '7', '?'
+        char ch = 'A';
+    d) string literals
+        "srinivas", "49-53-20/25", "9247175823"
+        String userName = "srinivas";
+    e) boolean literals
+        true, false
+        boolean isValid = true;
+
+    f) void literal
+         null : indicates that a specific reference not refer to anything.
+        
+5) Comments
+    a) //           inline comment
+    b) /* .. */     block comment
+    c) /** .. */    documentation comment
+
+    
+Naming Conventions:
+-------------------
+1) Variable (or) Method (or) Object Identifiers:
+    camel notation  :   first word should be in lowercase.
+                        if it is more than one word, first letter of each word should be in uppercase
+                        and the rest in lowercase.
+
+                        width, boxWidth, boxWidthInMeters, 
+                        display(), displayData()
+
+2) User Defined Data Types (class, interface, enum)
+    pascal notation : first letter of each word should be in uppercase.
+
+        Box, Exception, ArrayIndexOutOfBoundsException
+
+3) constant identifiers:
+    uppercase notation : if it is more than one word, we can use underscores.
+        PIE, MAX_MARKS, PASS_MARKS, CLASS_STRENGTH
+
+d) package identifiers:
+    lowercase notatation.
+    often abbreviated.
+
+            util, awt, io, lang
+
+Indentation:
+    keeping proper spaces while writing program.
+
+Comments:
+    use comments liberally.
+
+
+d:\pallavi\JavaSEWorkspace
+------------------------------
+ToStartWith -> src -> 
+
+datatypes:
+-----------
+1) primitive data Types
+    a) numeric data type
+        i) integral type
+                byte        1       -2^7 to 2^7-1      
+                short       2       -2^15 to 2^15-1
+                int         4
+                long        8
+        2) floating-point type
+                float       4
+                double      8
+
+    b) non-numeric data type
+        char                2
+        boolean             1
+        void
+
+2) user defined types
+    what is the meaning of user?
+    user of java -> developer
+
+    a) class
+    b) interface
+    c) enum
+    d) annotations
+
+    String : it is a pre-defined class, it not a data type.
+
+Control structures:
+-------------------
+    if, switch, for, while, do..while, break, continue, labelled break, labelled continue.
+
+
+Java API (Application programming interface)
+Scanner:
+    it is a pre-defined class in java.util package
+    to recieve data from a stream.
+    stream means flow of data.
+
+standard input stream:
+----------------------
+    data flow from keyboard to your application. it is always in the form of binary internally.
+
+    language    input stream            to convert binary data into string
+                (binary)
+    ------------------------------------------------------------------------------
+    'C'         stdin                   scanf()
+    C++         cin                     >> (extraction operator)
+    java        System.in               Scanner 
+
+Scanner scan = new Scanner(System.in);
+
+    scan.nextInt()      : convert the binary data in the standard input stream into int.
+    scan.nextFloat()    : convert the binary data in the standard input stream into float.
+    scan.nextDouble()   : convert the binary data in the standard input stream into double.
+    scan.next()         : convert the binary data in the standard input stream into string.
+    scan.nextLine()     : convert the binary data in the standard input stream into string.
+
+                    
+                    
+                                            Arrays
+                                            ------
+1. Linear collection of homogeneous data items.
+2. are dynamic. means memory allocation happens at runtime.
+3. size can be dynamic but it is always fixed.
+4. 0-based index
+5. arrays are objects.
+6. length property return no. of elements in the array.
+
+declaration:
+-------------
+datatype[] arrayName;
+datatype   arrayName[];
+
+allocate memory:
+----------------
+arrayName = new datatype[size];
+
+declaration & allocation:
+--------------------------
+datatype[] arrayName = new datatype[size];
+
+initialization:
+----------------
+datatype[] arrayName = {value-1, value-2, ...};
+
+
+enhanced for loop:
+------------------
+for(datatype   var : arrayName) {
+    statment(s);
+}
+
+1) index variable is always an int in for loop.
+   index variable is same as the array type in the enhanced for loop.
+
+2) enhanced for loop can be used only when you want to process all entries from top to bottom order.
+
+                                Command Line Arguments
+                                ----------------------
+1. it is another way giving input to your program
+
+
+Program:
+--------
+calculate min, max, sum, average of all numbers that are given through command line arguments.
+
+                                Functions
+                                ---------
+1. it is a self-contained sub program that do a specific task that can be used repeatedly.
+2. represent a behaviour.
+
+elements of a function:
+-----------------------
+function prototype (function declaration / function signature) :
+    returnType  functionName(datatype  arg-1, datatype  arg-2, ....);
+
+function definition (function code) :
+    returnType  functionName(datatype arg-1, datatype arg-2, ....) {
+        statement(s);
+    }
+
+function call :
+    [var = ] functionName(arg-1,arg-2,....);
+
+write a function to calculate factorial. calculate ncr and npr using the factorial function
+and display them.
+ncr = n! / r! * n-r!
+npr = n! / n-r!
+
+
+                                VARARGS (Variable Arguments) - JDK 1.5+
+                                ----------------------------------------
+...     is called "ellipsis".
+
+                                    OOPS   (OOP)
+                        (Object Oriented Programming System)
+
+understand "programming paradigms".
+
+1. OOP is the latest programming paradigm.
+2. to bring logical structuring as close as possible to the real world.
+
+concepts:
+---------
+1) class, object
+2) encapsulation
+3) data hiding
+4) abstraction
+5) inheritance
+6) polymorphism
+7) persistence
+
+class:
+------
+It is a user-defined datatype that represent an entity in terms of properties and behaviours.
+properties are represented by using variables (are also known as field / data member)
+behaviours are represented by using functions (are also known as methods / member functions)
+
+classes are also called models.
+class must be designed as an independent unit.
+class do not occupy any memory, since it is just definition.
+
+object:
+-------
+it is a variable whose datatype is a class name.
+object itself is an entity.
+
+encapsulation: (data hiding)
+-----------------------------
+it is the process of providing an indirect access to fields.
+these fields are protected by access specifiers, and an indirect access is provided through 
+setters (mutators) and getters (accessors).
+
+
+ComplexNumber
+    real, imaginary
+    setReal(), setImaginary()
+
+access specifier:
+-----------------
+1) default      : can be applied on class | field | method
+                  the scope of default members are current package (in any other class)
+2) private      : can be applied on field | method
+                  the scope is the current class only.
+3) public       : can be applied on class | field | method
+                  the scope is wherever we can access package.
+4) protected    : can be applied on field | method
+                  the scope is current class and any of the sub class in the current package.
+
+Note:
+-----
+    data members are independent of objects.
+    but methods are stored in a special memory called as "method area", which are accessed
+    by all objects of the class.
+
+Assignment-1:
+-------------
+1) accept cost price and selling price, print the amount of profit or loss.
+2) accept two numbers and an arithmetic operator. perform the operation and print the result.
+3) factorial program
+4) number palindrome
+5) prime number program
+6) fibonacci series
+7) one example program on labelled break
+8) one example program on labelled continue
+9) accept n. display all primes between 1 and n.
+10) develop a java application to accept cost of ONE COVID-19 testing kit. and no. of kits needed and
+    compute the total cost.
+    select a discount based on the following scenario.
+    compute and display the payable amount.
+
+    kits            discount
+    -------------------------
+    < 2500              0
+    2500 - 50000         5%
+    50000 - 75000       20%
+    >= 75000            30%
+11) accept an array of 20 integers. sort the array using any sorting technique you know and display
+    the sorted array.
+12) matrix addition
+13) matrix multiplication
+14) matrix transpose
+
+15) create a class rectangle (length and breadth).
+    write setters, getters, area() and perimeter()
+    create the application program also.
+
+
+                                        Constructors
+                                        -------------
+1) It is a special method that is executed automatically immediately after the object is created.
+2) name of the constructor must be same name as that of class.
+3) do not return any thing and should not be marked as "void".
+4) it is used to initialize fields.
+5) if there is no constructor defined in a class, then the java compiler creates one.
+
+6) In the entire life cycle of an object, how many times a constructor is executed?
+    ONE
+
+types of constructors:
+----------------------
+1) default constructor      (no-parameter constructor)
+2) parameter constructor    (constructor with parameter)
+3) copy constructor
+    it is a special constructor which takes object of same class as parameter to it.
+
+
+JDK Tools : 
+-----------
+javac (compiler)
+java (interpreter)
+javadoc 
+javah
+appletviewer
+jdb
+javaw  : is used by Eclipse to execute java program.
+javap  : disassembler
+    if we any .class file to it, it will display all public fields and methods defined in it.
+
+
+"this" reference:
+-----------------
+1) "this" reference contain the reference of "implied object".
+2) "implied object" means the object which is invoking a method currently.
+
+
+c1.getReal()        => c1 => this
+c2.getReal()        => c2  => this
+c3.getReal()        => c3 => this
+
+public double getReal() {
+	return this.real;
+}
+
+3) when the field name and parameter name is same of a method, to represent a field, it must be
+   prefixed with "this" keyword.
+4) "this" keyword can also be used to call one constructor from other constructor.
+5) "this" keyword must be used always as a first statement in the code block.
+
+
+                                    static 
+                                    ------
+static means "sharable".
+
+we can static keyword in multiple ways.
+1) static block
+2) static field
+3) static method
+4) static class
+
+block : group of statements enclosed with in curly braces.
+
+1) which is the first block of code that is invoked in a class?
+    static block
+
+static {
+    st-1;
+    st-2;
+}
+
+2) a class can have only one static block
+3) it gets executed when the class gets accessed for the first time.
+
+what do you mean by accessing the class for first time?
+- create an object of a class.
+- access any static method of the class.
+- declare object to a sub class of the class.
+- access any static method of a sub-class of the class.
+
+2) static field
+    when a field is declared with static keyword, then it is static field.
+    static fields are also known as "class variables".
+    it is created only once in the memory, but can be accessed with any object of the class.
+    it is used to store common data across all objects of the class.
+
+    non-static fields are also known as "instance variables".
+
+3) static method
+    these are also called "class-level methods".
+    non-static methods are called as  "instance-level methods".
+    instance methods are specific to each object, where as static method is available
+    for the entire class.
+    to call a static method, we can use directly with the class name, without having to create any
+    object.
+    static method do not allow "this" keyword, because static method will not have current object.
+    static method allow only static members.
+
+
+    class ComplexNumberApp {
+        public static void main(String [] agrs) {
+        }
+    }
+
+    JVM cannot create object for a class unless an application ask for it.
+    The application cannot ask unless it starts the execution.
+    That's why main() is marked as static, so that the object is not required to call it.
+
+    JVM will execute ComplexNumberApp.main()
+
+
+write a method to add two complex numbers in the complex number class.
+
+adding two complex numbers => is a class level task.
+
+                                        Inheritance
+                                        -----------
+1. creating a new class (sub class) from an existing class (super class).
+2. Inheritance means we are inheriting only definition but not existence.
+3. "extends" keyword must be used while creating a sub class.
+
+types of inheritance:
+---------------------
+1) single               (A -> B)
+2) multi-level          (A -> B -> C -> D)
+3) hierarchical         (A -> B, A -> C, A -> D)
+4) multiple             (A,B) -> C
+5) hybrid               combination of more than two models.
+
+
+Employee -> empNo, empName, basic
+ContractEmployee extends Employee ->  contractDuration
+Manager extends Employee -> allowance
+ManagingDirector extends Manager -> share
+
+constructor phenomenon:
+------------------------
+when an object of sub class is created
+    constructor of super class is executed first 
+    then constructor of sub class is executed.
+
+what if a super class is having more than one constructor?
+    always super class default constructor is executed first.
+    then the sub class respective constructor is executed then.
+    
+super keyword:
+---------------
+1. super keyword is used for calling a specific super class constructor from sub class constuctor.
+2. super is also used fir cakkubg super class overridden functions from sub class method.
+3. super keyword, if used, must be the first statement of the code block.
+4. "super" and "this" keywords are mutually exclusive.
+
+                                                
+                                            Polymorphism
+                                            ------------
+poly = many
+morph = forms
+
+exhibiting different behaviours for a same method call.
+
+multiply the following: (ex: multiply operation)
+a) 12               34
+b) 3+8i             4+9i
+c) matrix-1         matrix-2
+d) polynomial-1     polynomial-2
+
+There are two types.
+a) overloading
+    methods belong to the same class (or) super class and sub class
+    must have the same name
+    but with different arguments.
+    it is compile-time polymorphism  (Early Binding)
+b) overriding
+    if two methods belong to a super class and sub class 
+    has the same name
+    return type also same
+    paramater-list is also same
+    it is run-time polymorphism     (Late Binding)
+
+
+                                        Abstraction
+                                        -----------
+1. abstraction means behaviour hiding.
+2. abstract means "incomplete".
+
+why should we hide behaviour?
+copy & paste operations.
+    harddisk to pendrive
+    cd to harddisk
+    memorycard to harddisk
+each of the media, is technically different from one another.
+
+a) abstract method
+    when a method signature is known but the implementation not yet known.
+    but abstract method can be defined only in an abstract class.
+    
+
+
+b) abstract class
+    if a class contain atleast one abstract method, then the class should be defined as an 
+    abstract class.
+    we cannot have object for an abstract class.
+
+    create a sub class for the abstract class and override all abstract methods of it.
+    then create object for the sub class.
+    mark all the overriding methods with "@Override" annotation.
+
+    if we do not override the abstract method in the sub class, then the sub class must be marked
+    as an abstract rules.
+
+    but an abstract class not necessarily have an abstract method.
+
+    Person : pin, firstname, lastname       (abstract class)
+    Student extends Person :  clazz
+    Teacher extends Person :  subject
+
+Note:
+    A super class reference variable can contain object of super class as well as object of 
+    sub class.
+    but vice-versa is not possible.
+
+
+FoodItem
+    itemId, ItemName, price,  tax (in percentage)
+    calculate payableAmount()    => abstract method
+
+DineIn
+    payable amount = price + tax
+
+TakeAway
+    packageCharges
+    payable amount = price + tax + packageCharges
+
+Delivery
+    deliveryCharges
+    discount
+    payable amount = price + tax + deliveryCharges - discount
+
+AbstractFunctionApp.java
+
+
+                                    final
+                                    -----
+1) final variable
+        it is used to define constants.
+        we cannot modify the value of a final variable.
+
+        final int MAX_MARKS = 100; 
+        final int PASS_MARKS = 35;
+
+        generally final variables are marked as public static variables.
+
+
+2) final method
+
+        final double calculate() {
+            return principle*time*rate/100;
+        }
+
+        this method cannot be overridden in the sub class.
+
+3) final class
+
+        final class Product {
+
+        }
+
+        final classes cannot be inherited.
+
+
+                                        interfaces
+                                        ----------
+It is a user defined datatype that can have
+    a) abstract methods
+    b) constants  (public static final variables)
+    c) default methods      (JDK 1.8+)
+    d) static methods       (JDK 1.8+)
+
+A class can implement more than one interface   (multiple inheritance).
+But a class cannot extends more than one super class.
+
+class represents entity.
+abstract class represents semi-defined entity.
+interface represent a ROLE (responsibility).
+
+one entity can play multiple ROLES.
+
+we cannot create objects for an interface.
+we must create sub class using "implements" keyword, and override all abstract methods then
+create object for the sub class.
+
+    HumanBeing                                                      Animal
+
+Gent  (E)          Lady (E)                            Male (E)               Female (E)
+
+
+Mother  (Role)      => giveBirth(), feed()
+Father  (Role)      => protect(), earn()
+Brother
+Sister
+
+Interface  Mother {
+    giveBirth()
+    feed()
+}
+
+class Lady implements Mother {
+
+}
+
+
+                                            enum
+                                            ----
+It is a user defined datatype that ensures a possible value of a field.
+
+enum Gender {
+    MALE, FEMALE
+}
+
+enum MaritalStatus {
+    SINGLE, MARRIED
+}
+
+
+Assignment:
+-----------
+1) create a class Point
+    Point       x, y
+    constructors
+    setters and getters
+
+    create a method to find distance between two points.
+    create a method to find slope between two points.
+    create a method to find the mid point of two given points.
+    create a method to find whether three given points are collinear or not.
+    create a method to find the area of triangle formed by three given points.
+
+
+2) write program on inheritance.
+3) write program on abstract classes.
+4) write program on abstract methods.
+
+
+                                       Sign Board Maker Case Study
+                                       ---------------------------
+paint       estimate_paint_cost           area * unit_cost_for_paint_rate
+border      estimate_border_cost           perimeter * unit_cost_for_border
+
+all hoardings have area
+all hoardings have perimeter
+
+area & perimeter calculation (formulas) do not priorly.
+
+Hoarding.java   (interface) => area(), perimeter()
+Rectangular implements Hoarding
+Circular implements Hoarding
+
+Estimator.java
+
+
+                                        Package
+                                        -------
+it is a logical collection of classes, interfaces and sub-packages.
+the package declaration statement must be the first statement of the program.
+
+import com.dxc.oopd.model.Circular;
+import com.dxc.oopd.model.Estimator;
+import com.dxc.oopd.model.Rectangular;
+
+import com.dxc.oopd.model.*;
+
+                                    Built-in packages
+                                    -----------------
+java.lang
+java.util
+java.io
+java.time       (JDK 1.8)
+javax.sql       (JDBC)
+
+java.lang:
+----------
+is the default package, imported for evey program automatically.
+
+System.out.println()
+
+println()   : method
+out         : static object  of java.io.PrintStream class
+System      : class
+
+
+Object
+System
+String, StringBuffer, StringBuilder
+Thread, Runnable (i)
+Exception
+Integer, Double, Float, Character, Boolean, Long
+Math
+Throwable
+Comparable (i)
+
+java.lang.Object:
+-----------------
+It is an implicit super class for all of our java class.
+(universal super class).
+
+1) public int hashcode() :
+    hashcode is a unique identity given for everyobject.
+2) public boolean equals(Object obj)
+    used to check if two objects are equal or not.
+    it internally compare hash codes by default.
+    java strongly recommend to override this method in your class to compare two objects
+    for equality.
+3) public String toString()
+    to convert object into String.
+    It is generally used to display the object data.
+    default implementation is to return the hash code in hexa decimal form along with fully qualified
+    class name.
+4) protected void finalize()
+    it acts like a destructor. (we don't have destructor concept in java)
+    this method is called just before de-allocating an object.
+
+java.lang.System:
+-----------------
+public static java.io.PrintStream out;
+public static java.io.PrintStream err;
+public static java.io.InputStream in;
+
+public static void gc() :
+    request for garbage collection.
+
+public static void exit(int):
+    abruptly terminates the program.
+
+java.lang.Math:
+---------------
+public static double 
+1) PI    : Math.PI
+2) abs()
+3) sqrt()
+4) pow()
+5) ceil()
+6) floor()
+7) round()
+8) sin()
+9) valueOf(any_data_type) :
+    to convert any data into String.
+
+
+java.lang.String
+----------------
+1. group of characters.
+2. String objects are immutable. (not modifiable)
+
+mutation : cut & join   (biology)
+    mutation means permanant change in organism.
+
+String str = new String();
+String str2 = new String("hello");      // stack & heap
+
+String str;
+String str2 = "hello";                  // String literal pool
+
+
+String s3 = "Srinivas";
+String s4 = "Dachepalli";
+String s5 = s4 + s3;                    // concatenation
+
++   +=      concatenation operators.
+
+String str = "Java";
+1) str.charAt(0)    => J
+2) s3.concat(s4)    => s4 is concatenated to s3
+3) str.contains("av")   => true
+4) str.startsWith("Ja") => true
+5) str.endsWith("va")   => true
+6) equals(Object) : will compare the content of two strings.
+7) equalsIgnoreCase(Object)
+8) compareTo(Object ) : to compare two strings.
+    return 0 when both the strings are equal.
+    return +ve when invoking string is big.
+    return -ve when invoking string is small.
+
+Task:
+    Write a java program to find whether the given string is palindrome or not.
+
+
+
+                            StringBuffer & StringBuilder
+                            ----------------------------
+1) they are mutable (modifiable)
+2) StringBuilder is not thread-safe, whereas StringBuffer is thread-safe.
+
+methods:
+--------
+1) append()
+2) replace()
+3) delete()
+4) reverse()
+5) insert()
+
+
+
+
+                        Wrapper classes
+                        ---------------
+1) parseXXX()
+2) MIN_VALUE, MAX_VALUE
+
+boxing and unboxing:
+--------------------
+boxing : converting primitive type to object
+unboxing : converting data inside object back to primitive type.
+
+
+type promotion: (upcasting)
+-----------------------------
+int a = 10;
+double b = a;
+
+type demotion: (downcasting)
+--------------
+double c = 10.5;
+int d = c;          // error
+use typecast operator.
+int d = (int) c;       // explicit type casting
+s.o.p(d);
+
+
+String form primitive into primitive type:  (Wrapper classes)
+----------------------------------------------------------------
+String str = "100";     ("100"  -  String form int)
+int a = str;        // error
+int a = Integer.parseInt(str);
+s.o.p(a);
+
+String str = "10.5";    ("10.5" - String form double)
+double b = Double.parseDouble(str);
+
+primitive type to String:
+--------------------------
+int a = 100;
+String str = String.valueOf(a);
+
+
+Integer iObj = new Integer(100);
+int a = iObj.intValue();        // before JDK 1.5
+int a = iObj;                   // auto un-boxing
+s.o.p(a);
+
+
+Assignment:
+------------
+1) read about string literal pool.
+2) write a java program demonstrate the methods of StringBuffer class.
+3) Write a Java program to display a String in the traingle form as shown below.
+
+    input : java
+    output:
+    j
+    ja
+    jav
+    java
+
+4) write a java program to print the abbreviated form for a given string.
+    input : world health organization
+    output : w.h.o.
+
+5) develop a class "Account".
+    accountNumber, nameOfAccountHolder, balance
+    constructors, setters and getters
+    deposit()
+    withdraw()
+    fundtransfer()
+    toString()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       
+
+    
+
+
